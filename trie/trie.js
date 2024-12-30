@@ -23,8 +23,10 @@ class StringTrieNode {
 function insert(node, string) {
     for (let i = 0; i < string.length; i++) {
         if (node.children.has(string[i])) {
+            console.log(`char ${string[i]} exists, skipping insert`);
             node = node.children.get(string[i]);
         } else {
+            console.log(`inserting ${string[i]}`);
             const newNode = new StringTrieNode(string[i]);
 
             if (i == string.length - 1) newNode.isTerminal = true;
@@ -65,6 +67,8 @@ function similarSearch(node, string) {
 
             depthCache.push(string[i]);
             wordCache.push(depthCache.join(''));
+        } else {
+            return wordCache;
         }
     }
 
@@ -82,6 +86,8 @@ function similarSearchWorse(node, string) {
             node = node.children.get(string[i]);
 
             index += 1;
+        } else {
+            break;
         }
     }
 
@@ -96,13 +102,8 @@ function similarSearchWorse(node, string) {
 
 function main() {
     const x = new StringTrieNode();
-    insert(x, "hii");
-    insert(x, "hiya");
-    console.log(search(x, "hii"));
-    console.log("hiiii: ", similarSearch(x, "hiiii"));
-    console.log("hiiii: ", similarSearchWorse(x, "hiiii"));
-
-    console.log("regular search heya", search(x, "heya"));
+    insert(x, "hiiiii");
+    console.log(similarSearch(x, "hiabcdefghi"));
 }
 
 main();
